@@ -1,7 +1,9 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { db } from "@/firebase/config";
 import { collection, onSnapshot } from "firebase/firestore";
 import SlotGrid from "@/components/SlotGrid";
@@ -12,166 +14,202 @@ export default function Home() {
   const [bookings, setBookings] = useState<any[]>([]);
 
   useEffect(() => {
-  const unsubscribe = onSnapshot(collection(db, "bookings"), (snapshot) => {
-    const data = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const unsubscribe = onSnapshot(collection(db, "bookings"), (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-    setBookings(data);
-  });
+      setBookings(data);
+    });
 
-  return () => unsubscribe();
-}, []);
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <main className="min-h-screen bg-[#0b0b0b]">
+    <main className="min-h-screen bg-gradient-to-b from-black via-[#111111] to-black text-white">
 
       {/* Navbar */}
-      <nav className="bg-black border-b border-orange-500">
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-8 py-5">
 
-          <h1 className="text-3xl font-bold text-orange-500">
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-orange-500"
+      >
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8 py-4">
+
+          <h1 className="text-xl md:text-3xl font-bold text-orange-500">
             🏆 4DG TOURNAMENT
           </h1>
 
           <Link href="/admin/login">
-  <button className="bg-orange-500 px-5 py-2 rounded-lg font-bold text-black">
-    ADMIN LOGIN
-  </button>
-</Link>
+            <button className="bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all duration-300 px-4 md:px-6 py-2 rounded-xl font-bold text-black shadow-lg">
+              ADMIN LOGIN
+            </button>
+          </Link>
 
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Banner */}
 
-      <div className="w-full mt-0">
-
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="overflow-hidden"
+      >
         <Image
           src="/banner.png"
           alt="Tournament Banner"
-          width={1400}
+          width={1600}
           height={700}
-          className="w-full h-[550px] object-cover"
+          className="w-full h-[220px] sm:h-[350px] md:h-[500px] lg:h-[650px] object-cover transition-transform duration-700 hover:scale-105"
         />
+      </motion.div>
 
-      </div>
       {/* Info Cards */}
 
-<section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 p-8">
+      <section className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-5 p-5 md:p-8">
 
-  <div className="bg-[#151515] border border-orange-500 rounded-xl p-6 text-center">
-    <h2 className="text-gray-300 text-lg">🏆 Prize Pool</h2>
-    <p className="text-orange-500 text-3xl font-bold mt-2">₹400</p>
-  </div>
+        {[
+          {
+            title: "🏆 Prize Pool",
+            value: "₹400",
+          },
+          {
+            title: "🎫 Entry Fee",
+            value: "₹27",
+          },
+          {
+            title: "👥 Team Size",
+            value: "18 Teams",
+          },
+          {
+            title: "🎮 Game",
+            value: "BGMI",
+          },
+        ].map((item, index) => (
 
-  <div className="bg-[#151515] border border-orange-500 rounded-xl p-6 text-center">
-    <h2 className="text-gray-300 text-lg">🎫 Entry Fee</h2>
-    <p className="text-orange-500 text-3xl font-bold mt-2">₹27</p>
-  </div>
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              delay: index * 0.15,
+            }}
+            whileHover={{
+              scale: 1.05,
+            }}
+            className="bg-[#151515] border border-orange-500 rounded-2xl p-6 text-center shadow-lg hover:shadow-orange-500/30 transition-all"
+          >
+            <h2 className="text-gray-300 text-base md:text-lg">
+              {item.title}
+            </h2>
 
-  <div className="bg-[#151515] border border-orange-500 rounded-xl p-6 text-center">
-    <h2 className="text-gray-300 text-lg">👥 Team Size</h2>
-    <p className="text-orange-500 text-3xl font-bold mt-2">18 Teams</p>
-  </div>
+            <p className="text-orange-500 text-2xl md:text-4xl font-bold mt-3">
+              {item.value}
+            </p>
 
-  <div className="bg-[#151515] border border-orange-500 rounded-xl p-6 text-center">
-    <h2 className="text-gray-300 text-lg">🎮 Game</h2>
-    <p className="text-orange-500 text-3xl font-bold mt-2">BGMI</p>
-  </div>
+          </motion.div>
 
- 
+        ))}
 
-</section>
-{/* Match Time */}
+      </section>
 
-<section className="max-w-7xl mx-auto p-8">
+      {/* Match Time */}
 
-  <h2 className="text-3xl font-bold text-orange-500 text-center mb-8">
-    ⏰ Select Match Time
-  </h2>
+      <section className="max-w-7xl mx-auto px-5 pb-10">
 
-  <div className="flex flex-col md:flex-row gap-6 justify-center">
+        <motion.h2
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="text-3xl font-bold text-orange-500 text-center mb-8"
+        >
+          ⏰ Select Match Time
+        </motion.h2>
 
-    <button
-  onClick={() => setSelectedTime("9:44 PM")}
-  className={`px-8 py-4 rounded-xl font-bold ${
-    selectedTime === "9:44 PM"
-      ? "bg-green-500 text-black"
-      : "bg-orange-500 hover:bg-orange-600 text-black"
-  }`}
->
-  🕘 9:44 PM
-</button>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-    <button
-  onClick={() => setSelectedTime("10:24 PM")}
-  className={`px-8 py-4 rounded-xl font-bold ${
-    selectedTime === "10:24 PM"
-      ? "bg-green-500 text-black"
-      : "bg-orange-500 hover:bg-orange-600 text-black"
-  }`}
->
-  🕥 10:24 PM
-</button>
+          {["9:44 PM", "10:24 PM", "11:04 PM"].map((time) => (
 
-    <button
-  onClick={() => setSelectedTime("11:04 PM")}
-  className={`px-8 py-4 rounded-xl font-bold ${
-    selectedTime === "11:04 PM"
-      ? "bg-green-500 text-black"
-      : "bg-orange-500 hover:bg-orange-600 text-black"
-  }`}
->
-  🕚 11:04 PM
-</button>
+            <motion.button
+              key={time}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setSelectedTime(time)}
+              className={`py-4 rounded-2xl font-bold text-lg shadow-lg transition-all ${
+                selectedTime === time
+                  ? "bg-green-500 text-black"
+                  : "bg-orange-500 hover:bg-orange-600 text-black"
+              }`}
+            >
+              🕘 {time}
+            </motion.button>
 
-  </div>
+          ))}
 
-</section>
-{/* Slot Selection */}
+        </div>
 
-{/* Slot Selection */}
+      </section>
 
-<section className="max-w-7xl mx-auto p-8">
+      {/* Slot Selection */}
 
-  <h2 className="text-3xl font-bold text-orange-500 text-center mb-8">
-    🎫 Select Your Slot
-  </h2>
+      <section className="max-w-7xl mx-auto px-5 pb-10">
 
-  <SlotGrid
-  bookings={bookings}
-  selectedTime={selectedTime}
-  selectedSlot={selectedSlot}
-  setSelectedSlot={setSelectedSlot}
-/>
+        <motion.h2
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="text-3xl font-bold text-orange-500 text-center mb-8"
+        >
+          🎫 Select Your Slot
+        </motion.h2>
 
-</section>
-{/* Book Slot */}
+        <SlotGrid
+          bookings={bookings}
+          selectedTime={selectedTime}
+          selectedSlot={selectedSlot}
+          setSelectedSlot={setSelectedSlot}
+        />
 
-<section className="py-10 flex justify-center">
+      </section>
 
-  <button
-  onClick={() => {
-    if (!selectedTime) {
-      alert("Please select a match time.");
-      return;
-    }
+      {/* Book Button */}
 
-    if (!selectedSlot) {
-      alert("Please select a slot.");
-      return;
-    }
+      <section className="py-12 flex justify-center">
 
-  window.location.href =
-`/booking?time=${selectedTime}&slot=${selectedSlot}`;
-  }}
-  className="bg-orange-500 hover:bg-orange-600 text-black font-bold text-xl px-10 py-4 rounded-xl shadow-lg transition"
->
-  🚀 BOOK SLOT NOW
-</button>
-</section>
+        <motion.button
+          whileHover={{
+            scale: 1.08,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
+          onClick={() => {
+
+            if (!selectedTime) {
+              alert("Please select a match time.");
+              return;
+            }
+
+            if (!selectedSlot) {
+              alert("Please select a slot.");
+              return;
+            }
+
+            window.location.href =
+              `/booking?time=${selectedTime}&slot=${selectedSlot}`;
+
+          }}
+          className="bg-orange-500 hover:bg-orange-600 text-black font-bold text-lg md:text-2xl px-10 py-5 rounded-2xl shadow-xl"
+        >
+          🚀 BOOK SLOT NOW
+        </motion.button>
+
+      </section>
 
     </main>
   );
-} 
+}
