@@ -1,12 +1,12 @@
 "use client";
 
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 import { db } from "@/firebase/config";
 import { collection, addDoc } from "firebase/firestore";
 
-export default function PaymentPage() {
+function PaymentContent() {
   const searchParams = useSearchParams();
 
   const date = searchParams.get("date");
@@ -68,18 +68,18 @@ export default function PaymentPage() {
         </div>
 
         <div className="bg-green-900 p-4 rounded-lg mb-6 text-center">
-  <p className="font-bold text-green-400">
-    📲 After payment, send your payment screenshot to:
-  </p>
+          <p className="font-bold text-green-400">
+            📲 After payment, send your payment screenshot to:
+          </p>
 
-  <p className="text-xl font-bold text-white">
-    WhatsApp: 8422026534
-  </p>
+          <p className="text-xl font-bold text-white">
+            WhatsApp: 8422026534
+          </p>
 
-  <p className="text-sm mt-2">
-    Also send your Team Name and Transaction ID.
-  </p>
-</div>
+          <p className="text-sm mt-2">
+            Also send your Team Name and Transaction ID.
+          </p>
+        </div>
 
         <input
           type="text"
@@ -98,5 +98,19 @@ export default function PaymentPage() {
 
       </div>
     </main>
+  );
+}
+
+export default function PaymentPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-black flex items-center justify-center text-white">
+          Loading...
+        </div>
+      }
+    >
+      <PaymentContent />
+    </Suspense>
   );
 }
