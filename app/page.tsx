@@ -199,8 +199,18 @@ export default function Home() {
               return;
             }
 
-            window.location.href =
-              `/booking?time=${selectedTime}&slot=${selectedSlot}`;
+            const bookingDate = new Date().toLocaleDateString("en-IN", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+
+window.location.href =
+  `/booking?date=${encodeURIComponent(
+    bookingDate
+  )}&time=${encodeURIComponent(
+    selectedTime
+  )}&slot=${selectedSlot}`;
 
           }}
           className="bg-orange-500 hover:bg-orange-600 text-black font-bold text-lg md:text-2xl px-10 py-5 rounded-2xl shadow-xl"

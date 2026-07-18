@@ -7,15 +7,18 @@ import { motion } from "framer-motion";
 function BookingContent() {
   const searchParams = useSearchParams();
 
-  const date = searchParams.get("date");
-  const time = searchParams.get("time");
-  const slot = searchParams.get("slot");
-
-  const bookingDate = new Date().toLocaleDateString("en-IN", {
+  const date =
+  searchParams.get("date") ||
+  new Date().toLocaleDateString("en-IN", {
     day: "2-digit",
     month: "long",
     year: "numeric",
   });
+
+const time = searchParams.get("time");
+const slot = searchParams.get("slot");
+
+const bookingDate = date;
 
   const [teamName, setTeamName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");

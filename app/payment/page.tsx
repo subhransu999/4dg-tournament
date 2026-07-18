@@ -10,7 +10,7 @@ import { collection, addDoc } from "firebase/firestore";
 function PaymentContent() {
   const searchParams = useSearchParams();
 
-  const date = searchParams.get("date");
+  const bookingDate = searchParams.get("bookingDate");
   const time = searchParams.get("time");
   const slot = searchParams.get("slot");
   const teamName = searchParams.get("teamName");
@@ -29,15 +29,15 @@ function PaymentContent() {
 
     try {
       await addDoc(collection(db, "bookings"), {
-        teamName,
-        whatsapp,
-        date,
-        time,
-        slot: Number(slot),
-        transactionId,
-        status: "pending",
-        createdAt: new Date(),
-      });
+  teamName,
+  whatsapp,
+  bookingDate,
+  time,
+  slot: Number(slot),
+  transactionId,
+  status: "pending",
+  createdAt: new Date(),
+});
 
       alert("Payment submitted successfully!");
       window.location.href = "/thankyou";
@@ -81,7 +81,7 @@ function PaymentContent() {
 
             <div className="flex justify-between">
               <span className="text-gray-400">Date</span>
-              <span>{date}</span>
+              <span>{bookingDate}</span>
             </div>
 
             <div className="flex justify-between">
@@ -96,21 +96,29 @@ function PaymentContent() {
               </span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between border-b border-gray-700 py-3">
               <span className="text-gray-400">Entry Fee</span>
               <span className="text-orange-400 font-bold">₹27</span>
             </div>
           </div>
 
           {/* QR Code */}
-          <div className="flex justify-center mb-6">
-            <motion.img
-              whileHover={{ scale: 1.05 }}
-              src="/qr.png"
-              alt="QR Code"
-              className="w-64 h-64 rounded-2xl border-2 border-orange-500 shadow-xl shadow-orange-500/20"
-            />
-          </div>
+          <div className="flex flex-col items-center mb-8">
+  <motion.img
+  whileHover={{ scale: 1.05 }}
+  src="/mukesh.png"
+  alt="Payment QR"
+  className="w-72 rounded-3xl border-2 border-orange-500 shadow-2xl shadow-orange-500/30"
+/>
+
+  <h3 className="mt-5 text-2xl font-bold text-white">
+    mukeshraul@fam
+  </h3>
+
+  <p className="text-orange-400 text-lg">
+    UPI ID: mukeshraul@fam
+  </p>
+</div>
 
           {/* WhatsApp Box */}
           <div className="bg-green-900/30 border border-green-500 rounded-2xl p-5 mb-6 text-center">
