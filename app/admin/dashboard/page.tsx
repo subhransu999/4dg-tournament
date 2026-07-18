@@ -14,6 +14,7 @@ import { db } from "@/firebase/config";
 export default function DashboardPage() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [search, setSearch] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   async function loadBookings() {
     const snapshot = await getDocs(collection(db, "bookings"));
@@ -66,11 +67,19 @@ export default function DashboardPage() {
     }
   }
 
-  const filteredBookings = bookings.filter((booking) =>
-    (booking.teamName || "")
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+  const filteredBookings = bookings.filter((booking) => {
+  const teamMatch = (booking.teamName || "")
+    .toLowerCase()
+    .includes(search.toLowerCase());
+
+  if (!selectedDate) return teamMatch;
+
+  const bookingDate = new Date(booking.createdAt?.seconds * 1000)
+    .toISOString()
+    .split("T")[0];
+
+  return teamMatch && bookingDate === selectedDate;
+});
 
   const totalBookings = bookings.length;
 
@@ -133,9 +142,11 @@ export default function DashboardPage() {
   </Link>
 
   <input
-    type="date"
-    className="bg-[#1a1a1a] border border-orange-500 rounded-lg px-4 py-2 text-white"
-  />
+  type="date"
+  value={selectedDate}
+  onChange={(e) => setSelectedDate(e.target.value)}
+  className="bg-[#1a1a1a] border border-orange-500 rounded-lg px-4 py-2 text-white"
+/>
 
   <button
     onClick={clearAllBookings}
