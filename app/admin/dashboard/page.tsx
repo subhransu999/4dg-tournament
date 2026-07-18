@@ -147,15 +147,17 @@ export default function DashboardPage() {
 
       <table className="w-full border border-orange-500">
         <thead className="bg-orange-500 text-black">
-          <tr>
-            <th className="p-3">Team</th>
-            <th className="p-3">WhatsApp</th>
-            <th className="p-3">⏰ Time</th>
-            <th className="p-3">🎫 Slot</th>
-            <th className="p-3">Status</th>
-            <th className="p-3">Action</th>
-          </tr>
-        </thead>
+  <tr>
+    <th className="p-3">Team</th>
+    <th className="p-3">WhatsApp</th>
+    <th className="p-3">📅 Date</th>
+    <th className="p-3">⏰ Time</th>
+    <th className="p-3">🎫 Slot</th>
+    <th className="p-3">💳 Transaction ID</th>
+    <th className="p-3">Status</th>
+    <th className="p-3">Action</th>
+  </tr>
+</thead>
 
         <tbody>
           {filteredBookings.map((booking) => (
@@ -166,16 +168,24 @@ export default function DashboardPage() {
               <td className="p-3">{booking.teamName}</td>
 
               <td className="p-3">
-                {booking.whatsapp}
-              </td>
+               {booking.whatsapp}
+</td>
 
-              <td className="p-3">
-                {booking.time}
-              </td>
+<td className="p-3">
+  {booking.bookingDate || "-"}
+</td>
 
-              <td className="p-3">
-                {booking.slot}
-              </td>
+<td className="p-3">
+  {booking.time}
+</td>
+
+<td className="p-3">
+  {booking.slot}
+</td>
+
+<td className="p-3 font-bold text-yellow-400">
+  {booking.transactionId || "-"}
+</td>
 
               <td className="p-3">
                 {booking.status === "pending" && (
