@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -124,18 +125,28 @@ export default function DashboardPage() {
       </div>
 
       <div className="flex gap-4 mb-6">
-        <input
-          type="date"
-          className="bg-[#1a1a1a] border border-orange-500 rounded-lg px-4 py-2 text-white"
-        />
 
-        <button
-          onClick={clearAllBookings}
-          className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg"
-        >
-          🗑️ Clear Bookings
-        </button>
-      </div>
+  <Link href="/">
+    <button className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg font-semibold">
+      🏠 Home Page
+    </button>
+  </Link>
+
+  <input
+    type="date"
+    className="bg-[#1a1a1a] border border-orange-500 rounded-lg px-4 py-2 text-white"
+  />
+
+  <button
+    onClick={clearAllBookings}
+    className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg font-semibold"
+  >
+    🗑️ Clear Bookings
+  </button>
+
+</div>
+
+
 
       <input
         type="text"
