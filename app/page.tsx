@@ -189,7 +189,7 @@ export default function Home() {
           }}
           onClick={() => {
 
-            if (!selectedTime) {
+            if (!selectedTime) {  
               alert("Please select a match time.");
               return;
             }
