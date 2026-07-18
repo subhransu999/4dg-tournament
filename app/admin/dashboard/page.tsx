@@ -70,56 +70,58 @@ export default function DashboardPage() {
       .toLowerCase()
       .includes(search.toLowerCase())
   );
+
   const totalBookings = bookings.length;
 
-const pendingBookings = bookings.filter(
-  (b) => b.status === "pending"
-).length;
+  const pendingBookings = bookings.filter(
+    (b) => b.status === "pending"
+  ).length;
 
-const approvedBookings = bookings.filter(
-  (b) => b.status === "approved"
-).length;
+  const approvedBookings = bookings.filter(
+    (b) => b.status === "approved"
+  ).length;
 
-const rejectedBookings = bookings.filter(
-  (b) => b.status === "rejected"
-).length;
+  const rejectedBookings = bookings.filter(
+    (b) => b.status === "rejected"
+  ).length;
 
   return (
     <main className="min-h-screen bg-black text-white p-8">
       <h1 className="text-4xl font-bold text-orange-500 mb-8">
         👨‍💼 Admin Dashboard
       </h1>
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
 
-  <div className="bg-blue-600 rounded-xl p-6 text-center">
-    <h2 className="text-xl font-bold">📋 Total</h2>
-    <p className="text-4xl font-bold mt-2">
-      {totalBookings}
-    </p>
-  </div>
+        <div className="bg-blue-600 rounded-xl p-6 text-center">
+          <h2 className="text-xl font-bold">📋 Total</h2>
+          <p className="text-4xl font-bold mt-2">
+            {totalBookings}
+          </p>
+        </div>
 
-  <div className="bg-yellow-500 rounded-xl p-6 text-center text-black">
-    <h2 className="text-xl font-bold">🟡 Pending</h2>
-    <p className="text-4xl font-bold mt-2">
-      {pendingBookings}
-    </p>
-  </div>
+        <div className="bg-yellow-500 rounded-xl p-6 text-center text-black">
+          <h2 className="text-xl font-bold">🟡 Pending</h2>
+          <p className="text-4xl font-bold mt-2">
+            {pendingBookings}
+          </p>
+        </div>
 
-  <div className="bg-green-600 rounded-xl p-6 text-center">
-    <h2 className="text-xl font-bold">✅ Approved</h2>
-    <p className="text-4xl font-bold mt-2">
-      {approvedBookings}
-    </p>
-  </div>
+        <div className="bg-green-600 rounded-xl p-6 text-center">
+          <h2 className="text-xl font-bold">✅ Approved</h2>
+          <p className="text-4xl font-bold mt-2">
+            {approvedBookings}
+          </p>
+        </div>
 
-  <div className="bg-red-600 rounded-xl p-6 text-center">
-    <h2 className="text-xl font-bold">❌ Rejected</h2>
-    <p className="text-4xl font-bold mt-2">
-      {rejectedBookings}
-    </p>
-  </div>
+        <div className="bg-red-600 rounded-xl p-6 text-center">
+          <h2 className="text-xl font-bold">❌ Rejected</h2>
+          <p className="text-4xl font-bold mt-2">
+            {rejectedBookings}
+          </p>
+        </div>
 
-</div>
+      </div>
 
       <div className="flex gap-4 mb-6">
         <input
@@ -148,7 +150,6 @@ const rejectedBookings = bookings.filter(
           <tr>
             <th className="p-3">Team</th>
             <th className="p-3">WhatsApp</th>
-            <th className="p-3">💳 Payment Screenshot</th>
             <th className="p-3">⏰ Time</th>
             <th className="p-3">🎫 Slot</th>
             <th className="p-3">Status</th>
@@ -163,20 +164,18 @@ const rejectedBookings = bookings.filter(
               className="border-t border-orange-500"
             >
               <td className="p-3">{booking.teamName}</td>
-              <td className="p-3">{booking.whatsapp}</td>
+
               <td className="p-3">
-  {booking.screenshotUrl ? (
-    <img
-      src={booking.screenshotUrl}
-      alt="Payment"
-      className="w-20 h-20 rounded border object-cover"
-    />
-  ) : (
-    "No Screenshot"
-  )}
-</td>
-              <td className="p-3">{booking.time}</td>
-              <td className="p-3">{booking.slot}</td>
+                {booking.whatsapp}
+              </td>
+
+              <td className="p-3">
+                {booking.time}
+              </td>
+
+              <td className="p-3">
+                {booking.slot}
+              </td>
 
               <td className="p-3">
                 {booking.status === "pending" && (
@@ -203,7 +202,7 @@ const rejectedBookings = bookings.filter(
                   onClick={() =>
                     updateStatus(booking.id, "approved")
                   }
-                  className="bg-green-500 text-black px-3 py-1 rounded"
+                  className="bg-green-500 hover:bg-green-600 text-black px-3 py-1 rounded"
                 >
                   ✅ Approve
                 </button>
@@ -212,7 +211,7 @@ const rejectedBookings = bookings.filter(
                   onClick={() =>
                     updateStatus(booking.id, "rejected")
                   }
-                  className="bg-red-500 text-white px-3 py-1 rounded"
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                 >
                   ❌ Reject
                 </button>
