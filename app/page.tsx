@@ -133,7 +133,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-          {["9:44 PM", "10:24 PM", "11:04 PM"].map((time) => (
+          {["7:34 PM", "9:44 PM", "11:44 PM"].map((time) => (
 
             <motion.button
               key={time}
